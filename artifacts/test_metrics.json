@@ -1,0 +1,7 @@
+{
+  "test_top1": 1.0,
+  "test_top5": 1.0,
+  "macro_f1": 1.0,
+  "n_test": 182,
+  "n_classes": 61
+}

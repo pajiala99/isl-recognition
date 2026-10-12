@@ -1,0 +1,10 @@
+{
+  "svm_rbf": {
+    "test_top1": 0.978021978021978,
+    "test_macro_f1": 0.9775175644028102
+  },
+  "random_forest": {
+    "test_top1": 1.0,
+    "test_macro_f1": 1.0
+  }
+}

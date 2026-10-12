@@ -1,0 +1,9 @@
+# Kaggle dataset and extracted landmarks (3.3 GB) - download them yourself, see README
+data/
+# smoke-test checkpoint; the trained model is models/bilstm_orig.pt
+models/smoke.pt
+__pycache__/
+*.pyc
+.venv/
+.DS_Store
+.ipynb_checkpoints/

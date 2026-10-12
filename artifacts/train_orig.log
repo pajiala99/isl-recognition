@@ -1,0 +1,108 @@
+1210 clips | 61 classes | train 846 val 182 test 182
+device mps | bilstm | 1.67M params
+ep   1 | train 0.020 | val 0.016 top5 0.137 *
+ep   2 | train 0.037 | val 0.044 top5 0.159 *
+ep   3 | train 0.056 | val 0.093 top5 0.390 *
+ep   5 | train 0.106 | val 0.297 top5 0.731 *
+ep   6 | train 0.267 | val 0.500 top5 0.786 *
+ep   7 | train 0.412 | val 0.593 top5 0.857 *
+ep   8 | train 0.542 | val 0.692 top5 0.962 *
+ep   9 | train 0.637 | val 0.753 top5 0.984 *
+ep  10 | train 0.702 | val 0.764 top5 0.989 *
+ep  11 | train 0.766 | val 0.830 top5 1.000 *
+ep  12 | train 0.782 | val 0.940 top5 1.000 *
+ep  15 | train 0.862 | val 0.890 top5 0.989
+ep  16 | train 0.921 | val 0.967 top5 0.995 *
+ep  17 | train 0.923 | val 0.973 top5 1.000 *
+ep  18 | train 0.968 | val 0.984 top5 1.000 *
+ep  20 | train 0.945 | val 0.967 top5 1.000
+ep  24 | train 0.981 | val 0.989 top5 1.000 *
+ep  25 | train 0.988 | val 0.978 top5 1.000
+ep  28 | train 0.990 | val 0.995 top5 1.000 *
+ep  30 | train 0.988 | val 0.989 top5 1.000
+ep  31 | train 0.998 | val 1.000 top5 1.000 *
+ep  35 | train 0.998 | val 1.000 top5 1.000
+ep  40 | train 1.000 | val 0.989 top5 1.000
+ep  45 | train 1.000 | val 1.000 top5 1.000
+early stop at epoch 46
+
+TEST top-1 1.0000 | top-5 1.0000 | best val 1.0000 | 2.2 min
+baseline features: train (1028, 1912) test (182, 1912)
+svm_rbf {'test_top1': 0.978021978021978, 'test_macro_f1': 0.9775175644028102}
+random_forest {'test_top1': 1.0, 'test_macro_f1': 1.0}
+{
+  "test_top1": 1.0,
+  "test_top5": 1.0,
+  "macro_f1": 1.0,
+  "n_test": 182,
+  "n_classes": 61
+}
+                   precision    recall  f1-score   support
+
+             bear      1.000     1.000     1.000         3
+            break      1.000     1.000     1.000         3
+          brinjal      1.000     1.000     1.000         3
+           budget      1.000     1.000     1.000         3
+             busy      1.000     1.000     1.000         3
+          cabbage      1.000     1.000     1.000         3
+           carrot      1.000     1.000     1.000         3
+      cauliflower      1.000     1.000     1.000         3
+           chilli      1.000     1.000     1.000         3
+            clean      1.000     1.000     1.000         3
+            close      1.000     1.000     1.000         3
+             come      1.000     1.000     1.000         3
+             cook      1.000     1.000     1.000         3
+        crocodile      1.000     1.000     1.000         3
+              cry      1.000     1.000     1.000         3
+         cucumber      1.000     1.000     1.000         3
+             deer      1.000     1.000     1.000         3
+            drink      1.000     1.000     1.000         3
+         elephant      1.000     1.000     1.000         3
+             exam      1.000     1.000     1.000         3
+            fedup      1.000     1.000     1.000         3
+            fever      1.000     1.000     1.000         3
+          giraffe      1.000     1.000     1.000         3
+             give      1.000     1.000     1.000         3
+   good_afternoon      1.000     1.000     1.000         3
+     good_morning      1.000     1.000     1.000         3
+            hello      1.000     1.000     1.000         3
+              hug      1.000     1.000     1.000         3
+           injury      1.000     1.000     1.000         3
+        interview      1.000     1.000     1.000         3
+             jump      1.000     1.000     1.000         3
+        karnataka      1.000     1.000     1.000         3
+              key      1.000     1.000     1.000         3
+            knife      1.000     1.000     1.000         3
+            lemon      1.000     1.000     1.000         3
+             lion      1.000     1.000     1.000         3
+              man      1.000     1.000     1.000         3
+            maths      1.000     1.000     1.000         3
+            maybe      1.000     1.000     1.000         3
+           monkey      1.000     1.000     1.000         3
+            onion      1.000     1.000     1.000         3
+          peacock      1.000     1.000     1.000         3
+           pigeon      1.000     1.000     1.000         3
+             pour      1.000     1.000     1.000         3
+           radish      1.000     1.000     1.000         3
+          sparrow      1.000     1.000     1.000         3
+            still      1.000     1.000     1.000         2
+           switch      1.000     1.000     1.000         3
+              tea      1.000     1.000     1.000         3
+           temple      1.000     1.000     1.000         3
+        thank_you      1.000     1.000     1.000         3
+            tiger      1.000     1.000     1.000         3
+           turtle      1.000     1.000     1.000         3
+         umbrella      1.000     1.000     1.000         3
+            uncle      1.000     1.000     1.000         3
+       vegetables      1.000     1.000     1.000         3
+          volcano      1.000     1.000     1.000         3
+what_is_your_name      1.000     1.000     1.000         3
+             wife      1.000     1.000     1.000         3
+           writer      1.000     1.000     1.000         3
+            wrong      1.000     1.000     1.000         3
+
+         accuracy                          1.000       182
+        macro avg      1.000     1.000     1.000       182
+     weighted avg      1.000     1.000     1.000       182
+
+artifacts written to /Users/hardikpajiala/Desktop/isl-include-recognition/artifacts

@@ -1,0 +1,108 @@
+{
+  "takes_per_class": 2,
+  "test_top1": 0.7142857142857143,
+  "top_confusions": [
+    {
+      "true": "knife",
+      "predicted": "turtle",
+      "count": 3
+    },
+    {
+      "true": "brinjal",
+      "predicted": "onion",
+      "count": 2
+    },
+    {
+      "true": "cabbage",
+      "predicted": "injury",
+      "count": 2
+    },
+    {
+      "true": "cauliflower",
+      "predicted": "cucumber",
+      "count": 2
+    },
+    {
+      "true": "chilli",
+      "predicted": "radish",
+      "count": 2
+    },
+    {
+      "true": "elephant",
+      "predicted": "lemon",
+      "count": 2
+    },
+    {
+      "true": "give",
+      "predicted": "monkey",
+      "count": 2
+    },
+    {
+      "true": "onion",
+      "predicted": "brinjal",
+      "count": 2
+    },
+    {
+      "true": "pour",
+      "predicted": "still",
+      "count": 2
+    },
+    {
+      "true": "radish",
+      "predicted": "chilli",
+      "count": 2
+    },
+    {
+      "true": "bear",
+      "predicted": "cook",
+      "count": 1
+    },
+    {
+      "true": "busy",
+      "predicted": "jump",
+      "count": 1
+    }
+  ],
+  "weakest_classes": [
+    {
+      "class": "chilli",
+      "recall": 0.0
+    },
+    {
+      "class": "knife",
+      "recall": 0.0
+    },
+    {
+      "class": "radish",
+      "recall": 0.0
+    },
+    {
+      "class": "turtle",
+      "recall": 0.0
+    },
+    {
+      "class": "brinjal",
+      "recall": 0.3333333333333333
+    },
+    {
+      "class": "cabbage",
+      "recall": 0.3333333333333333
+    },
+    {
+      "class": "cauliflower",
+      "recall": 0.3333333333333333
+    },
+    {
+      "class": "elephant",
+      "recall": 0.3333333333333333
+    },
+    {
+      "class": "give",
+      "recall": 0.3333333333333333
+    },
+    {
+      "class": "key",
+      "recall": 0.3333333333333333
+    }
+  ]
+}
