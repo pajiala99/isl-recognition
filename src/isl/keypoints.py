@@ -13,6 +13,29 @@ from mediapipe.tasks.python.vision import (
 from .config import HAND_TASK, POSE_TASK, N_HAND
 
 
+class quiet_stderr:
+    """Silence native (C++) stderr for the duration of a block.
+
+    glog and TFLite write straight to file descriptor 2, so Python-level logging
+    settings cannot reach them. We only wrap model construction, where the noise is -
+    never the processing loop, so real Python errors still surface normally.
+    """
+
+    def __enter__(self):
+        import os
+        self._saved = os.dup(2)
+        self._null = os.open(os.devnull, os.O_WRONLY)
+        os.dup2(self._null, 2)
+        return self
+
+    def __exit__(self, *exc):
+        import os
+        os.dup2(self._saved, 2)
+        os.close(self._null)
+        os.close(self._saved)
+        return False
+
+
 class LandmarkExtractor:
     """Runs hand + upper-body pose landmarkers over a clip.
 
@@ -25,6 +48,13 @@ class LandmarkExtractor:
 
     def __init__(self, min_conf: float = 0.4, running_mode: str = "video"):
         mode = RunningMode.VIDEO if running_mode == "video" else RunningMode.IMAGE
+        with quiet_stderr():
+            self._build(mode, min_conf)
+        self.mode = mode
+        self._last_ts = -1          # MediaPipe VIDEO mode demands strictly increasing stamps
+        self._warm = False          # first inference also logs; silence that one call
+
+    def _build(self, mode, min_conf):
         self.hands = HandLandmarker.create_from_options(HandLandmarkerOptions(
             base_options=BaseOptions(model_asset_path=str(HAND_TASK)),
             running_mode=mode, num_hands=2,
@@ -39,8 +69,6 @@ class LandmarkExtractor:
             min_pose_presence_confidence=min_conf,
             min_tracking_confidence=min_conf,
         ))
-        self.mode = mode
-        self._last_ts = -1          # MediaPipe VIDEO mode demands strictly increasing stamps
 
     def close(self):
         self.hands.close()
@@ -52,17 +80,24 @@ class LandmarkExtractor:
     def __exit__(self, *exc):
         self.close()
 
+    def _detect(self, image, ts_ms: int):
+        if self.mode == RunningMode.VIDEO:
+            return (self.hands.detect_for_video(image, ts_ms),
+                    self.pose.detect_for_video(image, ts_ms))
+        return self.hands.detect(image), self.pose.detect(image)
+
     def _frame(self, rgb: np.ndarray, ts_ms: int):
         image = mp.Image(image_format=mp.ImageFormat.SRGB, data=rgb)
         if self.mode == RunningMode.VIDEO:
             # one extractor may be reused across clips, whose stamps restart at 0
             ts_ms = max(int(ts_ms), self._last_ts + 1)
             self._last_ts = ts_ms
-            hres = self.hands.detect_for_video(image, ts_ms)
-            pres = self.pose.detect_for_video(image, ts_ms)
+        if not self._warm:
+            with quiet_stderr():          # graph warm-up logs on the first inference
+                hres, pres = self._detect(image, ts_ms)
+            self._warm = True
         else:
-            hres = self.hands.detect(image)
-            pres = self.pose.detect(image)
+            hres, pres = self._detect(image, ts_ms)
 
         pose = np.zeros((33, 4), np.float32)
         if pres.pose_landmarks:

@@ -1,0 +1,21 @@
+{
+  "name": "tools",
+  "version": "1.0.0",
+  "description": "`build_deck.js` regenerates `ISL_Project_Presentation.pptx` from `artifacts/`. Every number and figure on the slides is read from those JSON/PNG files, so after re-running any experiment you rebuild the deck rather than editing slides by hand. The \"Protocol D — unseen signer\" slide appears automatically once `artifacts/unseen_signer.json` exists.",
+  "main": "build_deck.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "docx": "^9.15.0",
+    "pptxgenjs": "^4.0.1",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "react-icons": "^5.7.0",
+    "sharp": "^0.35.5"
+  }
+}

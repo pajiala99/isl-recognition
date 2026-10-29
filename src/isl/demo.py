@@ -40,7 +40,7 @@ def predict(model, device, seq: np.ndarray, classes, seq_len: int):
     return [(classes[i], float(prob[i])) for i in order]
 
 
-def play(video: Path, truth: str, top5, correct: bool):
+def play(video: Path, truth: str, top5, correct: bool, writer=None, show=True):
     import cv2
     cap = cv2.VideoCapture(str(video))
     fps = cap.get(cv2.CAP_PROP_FPS) or 30.0
@@ -55,6 +55,13 @@ def play(video: Path, truth: str, top5, correct: bool):
                     cv2.FONT_HERSHEY_SIMPLEX, 0.9, colour, 2)
         cv2.putText(frame, f"{top5[0][1]*100:.1f}%   truth: {truth.replace('_',' ')}", (18, 78),
                     cv2.FONT_HERSHEY_SIMPLEX, 0.6, (200, 200, 200), 1)
+        for i, (c, pr) in enumerate(top5[1:4], start=2):
+            cv2.putText(frame, f"{i}. {c.replace('_',' ')} {pr*100:.0f}%", (18, 118 + 20 * i),
+                        cv2.FONT_HERSHEY_SIMPLEX, 0.45, (210, 210, 210), 1)
+        if writer is not None:
+            writer.write(frame)
+        if not show:
+            continue
         cv2.putText(frame, "space = next   q = quit", (18, 100),
                     cv2.FONT_HERSHEY_SIMPLEX, 0.45, (150, 150, 150), 1)
         cv2.imshow("ISL demo", frame)
@@ -75,6 +82,8 @@ def main():
     ap.add_argument("--video", type=Path, default=None, help="predict on any video file")
     ap.add_argument("--play", action="store_true", help="show each clip in a window")
     ap.add_argument("--speak", action="store_true", help="speak each prediction aloud")
+    ap.add_argument("--save", type=Path, default=None,
+                    help="record the played clips with their predictions to an mp4")
     ap.add_argument("--seed", type=int, default=None)
     a = ap.parse_args()
 
@@ -111,6 +120,10 @@ def main():
 
     print(f"{len(picks)} held-out clips (never trained on), {len(classes)}-way choice:\n")
     hits = 0
+    writer = None
+    if a.save:
+        import cv2
+        writer = cv2.VideoWriter(str(a.save), cv2.VideoWriter_fourcc(*"mp4v"), 30.0, (640, 720))
     try:
         for s in picks:
             top5 = predict(model, device, load_sequence(s.path), classes, cfg.seq_len)
@@ -121,13 +134,16 @@ def main():
                   f"next: {', '.join(c.replace('_',' ') for c, _ in top5[1:4])}")
             if a.speak:
                 speaker.say(top5[0][0], force=True)
-            if a.play:
+            if a.play or writer is not None:
                 v = video_for(s.path)
                 if v:
-                    play(v, s.label, top5, ok)
+                    play(v, s.label, top5, ok, writer=writer, show=a.play)
     except KeyboardInterrupt:
         print("\nstopped")
     speaker.close()
+    if writer is not None:
+        writer.release()
+        print(f"wrote {a.save}")
     if picks:
         print(f"\n{hits}/{len(picks)} correct ({hits/len(picks)*100:.0f}%) on held-out clips")
 

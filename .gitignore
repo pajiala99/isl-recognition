@@ -7,3 +7,8 @@ __pycache__/
 .venv/
 .DS_Store
 .ipynb_checkpoints/
+
+# node deps for the deck/doc generators in tools/
+node_modules/
+tools/package-lock.json
+artifacts/*.mp4

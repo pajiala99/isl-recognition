@@ -63,6 +63,31 @@ Mirroring *hurts* on a single-signer dataset: mirrored clips are inputs the test
 never contains, and many ISL signs are not left-right symmetric. Geometric jitter and noise
 help. An augmentation is only valid if it imitates variation that exists in deployment.
 
+## See it working
+
+Three recordings in [`media/`](media/) — all H.264, so they play in the browser.
+
+| Video | What it shows |
+|---|---|
+| [`model_demo.mp4`](media/model_demo.mp4) | The trained model classifying six held-out clips it never saw, with its top-5 and confidence drawn on each frame |
+| [`preprocessing_demo.mp4`](media/preprocessing_demo.mp4) | The preprocessing pipeline running frame by frame: raw video with landmarks, the normalised skeleton, the feature matrix building up, and live numbers |
+| [`invariance_demo.mp4`](media/invariance_demo.mp4) | The same clip through two different "cameras" — one zoomed and shifted — producing near-identical normalised skeletons (mean abs. difference 0.011) |
+
+Run them yourself:
+
+```bash
+export PYTHONPATH=$PWD/src
+python -m isl.demo --random 6 --play --speak     # the model, on held-out clips
+python -m isl.visualize --word Tea               # the preprocessing, four panels
+python -m isl.visualize --word Tea --invariance  # the normalisation, proved
+```
+
+`--save out.mp4` records any of them. `isl.visualize --figure stages.png` writes a single
+still, which is where [`artifacts/preprocessing_stages.png`](artifacts/preprocessing_stages.png)
+and [`artifacts/invariance_proof.png`](artifacts/invariance_proof.png) came from.
+
+The clips are from the source dataset, which is MIT-licensed and published publicly.
+
 ## Pipeline
 
 ```
@@ -97,6 +122,7 @@ src/isl/
   record.py          record your own clips for an unseen-signer test
   unseen_signer.py   score the model on a signer it has never seen
   realtime.py        webcam demo: live text + speech, sentence buffer
+  visualize.py       four-panel preprocessing visualiser and the invariance demo
 ```
 
 ## Running it
